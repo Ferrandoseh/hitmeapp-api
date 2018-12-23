@@ -1,7 +1,10 @@
 package com.ferret.hitmeapp.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 public abstract class DefaultController {
@@ -12,4 +15,7 @@ public abstract class DefaultController {
     // EventBrite API
     protected String eventbriteUri = "https://www.eventbriteapi.com/v3/";
     protected String OAuth_EventBrite = "QGECTYGPITUNH2AOJ6NS"; //"IEKQDJQG4OBWT2MKDPTO";
+
+    //
+    RestTemplate restTemplate = new RestTemplate();
 }

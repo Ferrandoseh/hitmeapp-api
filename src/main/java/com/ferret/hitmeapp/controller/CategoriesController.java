@@ -5,6 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 @Controller
 public class CategoriesController extends DefaultController {
     private String type = "categories";
@@ -22,8 +26,8 @@ public class CategoriesController extends DefaultController {
     }
     @GetMapping(value="/categories")
     public String getAllCategories() {
-        //getAllCategoriesMeetup();
-        getAllCategoriesEventBrite();
+        System.out.println( getAllCategoriesMeetUp().toString() );
+        System.out.println( getAllCategoriesEventBrite().toString() );
 
         return "categories";
     }
@@ -48,22 +52,73 @@ public class CategoriesController extends DefaultController {
     }
 
     // Meetup API
-    private void getAllCategoriesMeetup() {
+    private JSONObject getAllCategoriesMeetUp() {
         final String uri = meetupUri + type + "?key=" + key_MeetUp + "&sign=true&photo-host=public&page=20";
 
-        RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
 
-        System.out.println(result);
+        return categoriesJsonMeetUp(result);
+    }
+
+    private JSONObject categoriesJsonMeetUp(String resultAPI)
+    {
+        JSONObject categoriesObj = new JSONObject();
+        JSONArray categoriesArray = new JSONArray();
+
+        try {
+            JSONObject categoriesAPI = new JSONObject(resultAPI);
+            JSONArray jsonArray = new JSONArray( categoriesAPI.getString("results") );
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+
+                JSONObject item = new JSONObject();
+                item.put("id", object.getInt("id"));
+                item.put("name", object.getString("name"));
+                categoriesArray.put(item);
+            }
+
+            categoriesObj.put("meetup", categoriesArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return categoriesObj;
     }
 
     // EventBrite API
-    private void getAllCategoriesEventBrite() {
+    private JSONObject getAllCategoriesEventBrite() {
         final String uri = eventbriteUri + type + "?token=" + OAuth_EventBrite;
 
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
 
-        System.out.println(result);
+        return categoriesJsonEventBrite(result);
+    }
+
+    private JSONObject categoriesJsonEventBrite(String resultAPI)
+    {
+        JSONObject categoriesObj = new JSONObject();
+        JSONArray categoriesArray = new JSONArray();
+
+        try {
+            JSONObject categoriesAPI = new JSONObject(resultAPI);
+            JSONArray jsonArray = new JSONArray( categoriesAPI.getString("categories") );
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+
+                JSONObject item = new JSONObject();
+                item.put("id", object.getInt("id"));
+                item.put("name", object.getString("name"));
+                categoriesArray.put(item);
+            }
+
+            categoriesObj.put("eventbrite", categoriesArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return categoriesObj;
     }
 }
