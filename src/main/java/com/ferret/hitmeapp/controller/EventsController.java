@@ -12,7 +12,7 @@ public class EventsController extends DefaultController {
     @GetMapping(value="/events/{latitude}/{longitude}/{radius}")
     public String getEventsByDistance(@PathVariable String latitude, @PathVariable String longitude,
                                       @PathVariable String radius) {
-        final String uri = meetupUri + type + "?key=" + apiKey + "&sign=true&photo-host=public&" +
+        final String uri = meetupUri + type + "?key=" + key_MeetUp + "&sign=true&photo-host=public&" +
                 "lon=" + longitude + "&radius=" + radius + "&lat=" + latitude;
 
         RestTemplate restTemplate = new RestTemplate();
@@ -25,7 +25,7 @@ public class EventsController extends DefaultController {
     @GetMapping(value="/events/{latitude}/{longitude}/{radius}/{categoryId}")
     public String getEventsByCategoryDistance(@PathVariable String latitude, @PathVariable String longitude,
                                               @PathVariable String radius, @PathVariable String categoryId) {
-        final String uri = meetupUri + type + "?key=" + apiKey + "&sign=true&photo-host=public&" +
+        final String uri = meetupUri + type + "?key=" + key_MeetUp + "&sign=true&photo-host=public&" +
                 "lon=" + longitude + "&category_id=" + categoryId + "&radius=" + radius + "&lat=" + latitude;
 
 
