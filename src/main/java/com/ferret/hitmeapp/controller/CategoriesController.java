@@ -35,10 +35,12 @@ public class CategoriesController extends DefaultController {
         String uri1 = "https://www.eventbrite.com/oauth/authorize?response_type=code&client_id=DKJ5G4DSQZCAIIIZKH";
 
         String uri2 = "https://www.eventbriteapi.com/v3/users/me/?token=QGECTYGPITUNH2AOJ6NS";
+        String uri0 = "https://www.eventbrite.com/oauth/token";
 
-
+        String content = "code=QGECTYGPITUNH2AOJ6NS&client_secret=QDZLDFYDAKNUZOM4XE2XWJS7VVNCHWX6SPUCKRHZO4WQSLTFQI&client_id=DKJ5G4DSQZCAIIIZKH&grant_type=authorization_code";
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> postResponse = restTemplate.postForEntity(uri2, null, String.class);
+
+        ResponseEntity<String> postResponse = restTemplate.postForEntity(uri1, content, String.class);
         System.out.println("Response for Post Request: " + postResponse.getBody());
 
 
