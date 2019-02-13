@@ -1,18 +1,43 @@
-package com.ferret.hitmeapp.controller;
+package com.ferret.hitmeapp.eventsApi.meetup;
 
-import org.springframework.stereotype.Controller;
+import com.ferret.hitmeapp.eventsApi.ApiAdapter;
+import com.ferret.hitmeapp.eventsApi.EventInterface;
+import com.ferret.hitmeapp.util.EventPair;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
-@Controller
-public class EventsController extends DefaultController {
-    private String type = "concierge";
+import java.util.ArrayList;
 
+public class MeetupAdapter extends ApiAdapter implements EventInterface {
+    private static String Uri = "https://api.meetup.com/2/";
+    private static String Key = "7d555759c312c5e6655f5028503637";
+
+    @Override
+    public ArrayList<EventPair> getAllCategories() {
+        String type = "categories";
+        final String uri = Uri + type + "?key=" + Key + "&sign=true&photo-host=public&page=20";
+
+        String result = restTemplate.getForObject(uri, String.class);
+
+        return categoriesJson(result);
+    }
+
+    protected String getApiName() {
+        return "meetup";
+    }
+
+    protected String getJsonArrayTag() {
+        return "results";
+    }
+
+    @Override
     @GetMapping(value="/events/{latitude}/{longitude}/{radius}")
     public String getEventsByDistance(@PathVariable String latitude, @PathVariable String longitude,
                                       @PathVariable String radius) {
-        final String uri = meetupUri + type + "?key=" + key_MeetUp + "&sign=true&photo-host=public&" +
+
+        String type = "concierge";
+        final String uri = Uri + type + "?key=" + Key + "&sign=true&photo-host=public&" +
                 "lon=" + longitude + "&radius=" + radius + "&lat=" + latitude;
 
         RestTemplate restTemplate = new RestTemplate();
@@ -22,10 +47,13 @@ public class EventsController extends DefaultController {
         return "events";
     }
 
+    @Override
     @GetMapping(value="/events/{latitude}/{longitude}/{radius}/{categoryId}")
     public String getEventsByCategoryDistance(@PathVariable String latitude, @PathVariable String longitude,
                                               @PathVariable String radius, @PathVariable String categoryId) {
-        final String uri = meetupUri + type + "?key=" + key_MeetUp + "&sign=true&photo-host=public&" +
+
+        String type = "concierge";
+        final String uri = Uri + type + "?key=" + Key + "&sign=true&photo-host=public&" +
                 "lon=" + longitude + "&category_id=" + categoryId + "&radius=" + radius + "&lat=" + latitude;
 
 
@@ -35,4 +63,5 @@ public class EventsController extends DefaultController {
         System.out.println(result);
         return "events";
     }
+
 }
