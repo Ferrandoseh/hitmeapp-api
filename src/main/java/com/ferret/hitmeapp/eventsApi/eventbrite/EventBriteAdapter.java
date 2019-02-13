@@ -2,7 +2,7 @@ package com.ferret.hitmeapp.eventsApi.eventbrite;
 
 import com.ferret.hitmeapp.eventsApi.ApiAdapter;
 import com.ferret.hitmeapp.eventsApi.EventInterface;
-import com.ferret.hitmeapp.util.EventPair;
+import com.ferret.hitmeapp.util.CategoryPair;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class EventBriteAdapter extends ApiAdapter implements EventInterface {
     private static String Key = "QGECTYGPITUNH2AOJ6NS"; //"IEKQDJQG4OBWT2MKDPTO";
 
     @Override
-    public ArrayList<EventPair> getAllCategories() {
+    public ArrayList<CategoryPair> getAllCategories() {
         String type = "categories";
         final String uri = Uri + type + "?token=" + Key;
 
@@ -33,10 +33,12 @@ public class EventBriteAdapter extends ApiAdapter implements EventInterface {
     @Override
     public Object getEventsByDistance(String latitude, String longitude, String radius) {
         return null;
+        //TODO: all the functionality
     }
 
     @Override
     public Object getEventsByCategoryDistance(String latitude, String longitude, String radius, String categoryId) {
         return null;
+        //TODO: all the functionality
     }
 }

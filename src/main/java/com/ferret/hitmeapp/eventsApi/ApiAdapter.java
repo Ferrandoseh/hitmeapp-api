@@ -1,6 +1,6 @@
 package com.ferret.hitmeapp.eventsApi;
 
-import com.ferret.hitmeapp.util.EventPair;
+import com.ferret.hitmeapp.util.CategoryPair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 public abstract class ApiAdapter {
     protected RestTemplate restTemplate = new RestTemplate();
 
-    protected ArrayList<EventPair> categoriesJson(String resultAPI)
+    protected ArrayList<CategoryPair> categoriesJson(String resultAPI)
     {
-        ArrayList< EventPair > result = new ArrayList<>();
+        ArrayList<CategoryPair> result = new ArrayList<>();
 
         JSONObject categoriesObj = new JSONObject();
         JSONArray categoriesArray = new JSONArray();
@@ -25,8 +25,10 @@ public abstract class ApiAdapter {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
 
-                EventPair pair = new EventPair(object.getInt("id"), object.getString("name"));
+                CategoryPair pair = new CategoryPair(object.getInt("id"), object.getString("name"));
                 result.add(pair);
+
+                //System.out.println( i + " - " + result.get(i).get() );
             }
 
             categoriesObj.put(getApiName(), categoriesArray);

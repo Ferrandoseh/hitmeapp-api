@@ -2,7 +2,7 @@ package com.ferret.hitmeapp.eventsApi.meetup;
 
 import com.ferret.hitmeapp.eventsApi.ApiAdapter;
 import com.ferret.hitmeapp.eventsApi.EventInterface;
-import com.ferret.hitmeapp.util.EventPair;
+import com.ferret.hitmeapp.util.CategoryPair;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
@@ -14,7 +14,7 @@ public class MeetupAdapter extends ApiAdapter implements EventInterface {
     private static String Key = "7d555759c312c5e6655f5028503637";
 
     @Override
-    public ArrayList<EventPair> getAllCategories() {
+    public ArrayList<CategoryPair> getAllCategories() {
         String type = "categories";
         final String uri = Uri + type + "?key=" + Key + "&sign=true&photo-host=public&page=20";
 

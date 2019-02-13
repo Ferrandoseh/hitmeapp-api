@@ -1,6 +1,5 @@
 package com.ferret.hitmeapp.util;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -96,8 +95,8 @@ public class CategoryMatcher {
         return Categories;
     }
 
-    public static EventPair findCategory(String name) {
-        EventPair pair = new EventPair(-1, name);
+    public static CategoryPair findCategory(String name) {
+        CategoryPair pair = new CategoryPair(-1, name);
         int keysSize = keys.size();
         for(int i = 0; i < keysSize && pair.getId() == -1; i++) {
             String[] categoryTags = keys.get(i);
@@ -135,6 +134,14 @@ public class CategoryMatcher {
 
     public String get() {
         return "<" + name + ", " + idMeetup +", " + idEventbrite + ">";
+    }
+
+    public int getIdMeetup() {
+        return this.idMeetup;
+    }
+
+    public int getIdEventbrite() {
+        return this.idEventbrite;
     }
 
     public String getName() {

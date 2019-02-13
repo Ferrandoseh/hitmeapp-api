@@ -18,6 +18,7 @@ public class DomainController {
     @GetMapping(value="/categories")
     public void getAllCategories() {
         System.out.println( CategoryManager.getJson() );
+
         //TODO: Add json file to be sent to the APP
     }
 

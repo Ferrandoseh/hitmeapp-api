@@ -1,10 +1,10 @@
 package com.ferret.hitmeapp.util;
 
-public class EventPair {
+public class CategoryPair {
     private int id;
     private String name;
 
-    public EventPair(int id, String name) {
+    public CategoryPair(int id, String name) {
         put(id, name);
     }
 

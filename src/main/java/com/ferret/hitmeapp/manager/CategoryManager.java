@@ -3,12 +3,14 @@ package com.ferret.hitmeapp.manager;
 import com.ferret.hitmeapp.eventsApi.eventbrite.EventBriteAdapter;
 import com.ferret.hitmeapp.eventsApi.meetup.MeetupAdapter;
 import com.ferret.hitmeapp.util.CategoryMatcher;
-import com.ferret.hitmeapp.util.EventPair;
+import com.ferret.hitmeapp.util.CategoryPair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class CategoryManager {
+public class CategoryManager extends ApiManager{
     public static final CategoryManager CATEGORY_MANAGER = new CategoryManager();
     private static MeetupAdapter meetupAdapter = new MeetupAdapter();
     private static EventBriteAdapter eventbriteAdapter = new EventBriteAdapter();
@@ -21,26 +23,24 @@ public class CategoryManager {
         return CATEGORY_MANAGER;
     }
 
-    public static JSONObject getJson() {
+    public static JSONArray getJson() {
         return createJson( mergeCategories() );
     }
 
-    private static ArrayList<EventPair> mergeCategories() {
-        ArrayList<EventPair> meetupCategories = meetupAdapter.getAllCategories();
-        ArrayList<EventPair> eventbriteCategories = eventbriteAdapter.getAllCategories();
+    public static ArrayList<CategoryMatcher> mergeCategories() {
+        ArrayList<CategoryPair> meetupCategories = meetupAdapter.getAllCategories();
+        ArrayList<CategoryPair> eventbriteCategories = eventbriteAdapter.getAllCategories();
 
         fillCategories(meetupCategories, meetupCategories.size(), true);
         fillCategories(eventbriteCategories, eventbriteCategories.size(), false);
 
-        ArrayList<CategoryMatcher> Categories = CategoryMatcher.getCategories();
-
-        return null;
+        return CategoryMatcher.getCategories();
     }
 
-    private static void fillCategories(ArrayList<EventPair> arrayCategories, int categoriesSize, boolean api1) {
+    private static void fillCategories(ArrayList<CategoryPair> arrayCategories, int categoriesSize, boolean api1) {
         for(int i = 0; i < categoriesSize; i++) {
-            EventPair pair = arrayCategories.get(i);
-            EventPair foundPair = CategoryMatcher.findCategory(pair.getName());
+            CategoryPair pair = arrayCategories.get(i);
+            CategoryPair foundPair = CategoryMatcher.findCategory(pair.getName());
             int categoryFound = foundPair.getId();
             String name = foundPair.getName();
             if(api1) CategoryMatcher.put(pair.getId(), -1, categoryFound, name);
@@ -48,7 +48,25 @@ public class CategoryManager {
         }
     }
 
-    private static JSONObject createJson(ArrayList<EventPair> arrayPair) {
-        return null;
+    private static JSONArray createJson(ArrayList<CategoryMatcher> arrayCategories) {
+        JSONArray categoriesArray = new JSONArray();
+
+        try {
+
+            for (int i = 0; i < arrayCategories.size(); i++) {
+
+                JSONObject item = new JSONObject();
+                item.put("idMeetup", arrayCategories.get(i).getIdMeetup());
+                item.put("idEventBrite", arrayCategories.get(i).getIdEventbrite());
+                item.put("name", arrayCategories.get(i).getName());
+                categoriesArray.put(item);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return categoriesArray;
     }
 }
+
+
