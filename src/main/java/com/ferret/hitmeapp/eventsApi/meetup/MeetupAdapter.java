@@ -32,9 +32,7 @@ public class MeetupAdapter extends ApiAdapter implements EventInterface {
     }
 
     @Override
-    @GetMapping(value="/events/{latitude}/{longitude}/{radius}")
-    public String getEventsByDistance(@PathVariable String latitude, @PathVariable String longitude,
-                                      @PathVariable String radius) {
+    public String getEventsByDistance(String latitude, String longitude, String radius) {
 
         String type = "concierge";
         final String uri = Uri + type + "?key=" + Key + "&sign=true&photo-host=public&" +
@@ -48,9 +46,7 @@ public class MeetupAdapter extends ApiAdapter implements EventInterface {
     }
 
     @Override
-    @GetMapping(value="/events/{latitude}/{longitude}/{radius}/{categoryId}")
-    public String getEventsByCategoryDistance(@PathVariable String latitude, @PathVariable String longitude,
-                                              @PathVariable String radius, @PathVariable String categoryId) {
+    public String getEventsByCategoryDistance(String latitude, String longitude, String radius, String categoryId) {
 
         String type = "concierge";
         final String uri = Uri + type + "?key=" + Key + "&sign=true&photo-host=public&" +
