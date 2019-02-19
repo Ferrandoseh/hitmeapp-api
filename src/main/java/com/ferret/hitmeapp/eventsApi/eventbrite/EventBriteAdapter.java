@@ -7,11 +7,8 @@ import com.ferret.hitmeapp.util.Event;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class EventBriteAdapter extends ApiAdapter implements EventInterface {

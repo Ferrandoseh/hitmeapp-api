@@ -9,13 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DomainController {
-    private CategoryManager categoriesManager;
-    private EventManager eventManager;
-
-    public DomainController () {
-        categoriesManager = CategoryManager.getInstance();
-        eventManager = EventManager.getInstance();
-    }
 
     @GetMapping(value="/categories")
     public void getAllCategories() {

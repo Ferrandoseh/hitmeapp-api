@@ -2,7 +2,6 @@ package com.ferret.hitmeapp.manager;
 
 import com.ferret.hitmeapp.eventsApi.eventbrite.EventBriteAdapter;
 import com.ferret.hitmeapp.eventsApi.meetup.MeetupAdapter;
-import com.ferret.hitmeapp.util.CategoryMatcher;
 import com.ferret.hitmeapp.util.Event;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,11 +21,15 @@ public class EventManager {
     }
 
     public static JSONArray getJsonEventsByDistance(String latitude, String longitude, String radius) {
-        return createJson( eventbriteAdapter.getEventsByDistance(latitude, longitude, radius) );
+        ArrayList<Event> allEvents = eventbriteAdapter.getEventsByDistance(latitude, longitude, radius);
+        allEvents.addAll(meetupAdapter.getEventsByDistance(latitude, longitude, radius));
+        return createJson(allEvents);
     }
 
     public static JSONArray getJsonEventsByCategoryDistance(String latitude, String longitude, String radius, String categoryId) {
-        return createJson( eventbriteAdapter.getEventsByCategoryDistance(latitude, longitude, radius, categoryId) );
+        ArrayList<Event> allEvents = eventbriteAdapter.getEventsByCategoryDistance(latitude, longitude, radius, categoryId);
+        allEvents.addAll(meetupAdapter.getEventsByCategoryDistance(latitude, longitude, radius, categoryId));
+        return createJson(allEvents);
     }
 
     private static JSONArray createJson(ArrayList<Event> events) {
@@ -51,11 +54,4 @@ public class EventManager {
 
         return eventsArray;
     }
-
-    /*public static ArrayList<CategoryMatcher> mergeCategories() {
-        ArrayList<CategoryPair> eventbriteCategories = eventbriteAdapter.getAllCategories();
-
-        return CategoryMatcher.getCategories();
-    }
-*/
 }

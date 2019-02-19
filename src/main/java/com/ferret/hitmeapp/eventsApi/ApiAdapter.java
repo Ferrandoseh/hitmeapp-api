@@ -27,8 +27,6 @@ public abstract class ApiAdapter {
 
                 CategoryPair pair = new CategoryPair(object.getInt("id"), object.getString("name"));
                 result.add(pair);
-
-                //System.out.println( i + " - " + result.get(i).get() );
             }
 
             categoriesObj.put(getApiName(), categoriesArray);
